@@ -2,6 +2,7 @@ package com.aisino.invoice;
 
 import cn.hutool.http.HttpRequest;
 import com.aisino.InvoiceApplication;
+import com.aisino.config.UrlEnum;
 import com.aisino.domain.Invoicebefore;
 import com.aisino.util.BasicRequest;
 import com.alibaba.fastjson.JSONObject;
@@ -114,6 +115,13 @@ public class DataTest {
         System.out.println(content);
 
         JSONObject.parseObject("");
+    }
+
+    @Test
+    public void testEnum(){
+        String url = UrlEnum.TOKEN_URL.getUrl();
+        System.out.println(url);
+
     }
 
 

@@ -1,5 +1,6 @@
 package com.aisino.service.impl;
 
+import com.aisino.config.UrlEnum;
 import com.aisino.domain.InvoiceResult;
 import com.aisino.mapper.InvoiceResultMapper;
 import com.aisino.service.InvoiceService;
@@ -28,7 +29,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public void saveResult(InvoiceResult invoiceResult) {
-         invoiceResultMapper.saveResult(invoiceResult);
+        invoiceResultMapper.saveResult(invoiceResult);
     }
 
     @Override
@@ -50,30 +51,34 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
 
     public InvoiceResult getInvoiceResult(String taxnum) {
-        JSONObject result = BasicRequest.basicRequest(taxnum, "http://10.10.2.2:7879/fatp_api/nuonuo/token/getToken");
-        JSONObject resultValue = result.getJSONObject("dataObject");
+
+        String token_urlUrl = UrlEnum.TOKEN_URL.getUrl();
+        Object result = BasicRequest.basicRequest(taxnum, token_urlUrl);
+        JSONObject resultValue = ((JSONObject) result).getJSONObject("dataObject");
         String token = resultValue.getString("access_token");
         String appKey = resultValue.getString("key");
         String appSecret = resultValue.getString("secret");
         // 票据识别使用https://sdk.nuonuo.com/open/v2/ocr
-        String url = "https://sdk.nuonuo.com/open/v2/ocr";
+        // String url = "https://sdk.nuonuo.com/open/v2/ocr";
+        String url = UrlEnum.NUONUO_URL.getUrl();
         // 唯一标识，由企业自己生成32位随机码
         String senid = UUID.randomUUID().toString().replace("-", "");
-        //填写API私有请求参数, 标准JSON格式
+        // 填写API私有请求参数, 标准JSON格式
         JSONObject jsonObj = new JSONObject();
-        jsonObj.put("invoiceCode","042001900211");
-        jsonObj.put("invoiceNo","58052070");
-        jsonObj.put("invoiceDate","2020-4-24");
-        jsonObj.put("checkCode","525941");
+        jsonObj.put("invoiceCode", "042001900211");
+        jsonObj.put("invoiceNo", "58052070");
+        jsonObj.put("invoiceDate", "2020-4-24");
+        jsonObj.put("checkCode", "525941");
         String content = jsonObj.toJSONString();
-        //填写API方法名
-        String method = "nuonuo.ElectronInvoice.obtainCurTaxPeriodThir";
+        // 填写API方法名
+        String api_method = UrlEnum.API_METHOD.getUrl();
 
         NNOpenSDK sdk = NNOpenSDK.getIntance();
-        String json = sdk.sendPostSyncRequest(url, senid, appKey, appSecret, token, taxnum, method, content);
-
+        String json = sdk.sendPostSyncRequest(url, senid, appKey, appSecret, token, taxnum, api_method, content);
         JSONObject jsonObject1 = JSONObject.parseObject(json);
         JSONObject jsonResult = jsonObject1.getJSONObject("result");
+
+        // 新建InvoiceResult保存数据
         InvoiceResult invoiceResult = new InvoiceResult();
         invoiceResult.setSsq(jsonResult.getString("ssq"));
         invoiceResult.setGxrqq(jsonResult.getString("gxrqq"));

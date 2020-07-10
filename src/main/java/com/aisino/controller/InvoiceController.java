@@ -32,7 +32,7 @@ public class InvoiceController {
         InvoiceResult invoiceResult = invoiceServiceImpl.getInvoiceResult(taxnum);
         invoiceServiceImpl.saveResult(invoiceResult);
         System.out.println(invoiceResult);
-        return "查询成功!"+"\n"+invoiceResult.toString();
+        return "查询成功!"+"</br>"+invoiceResult.toString();
     }
 
 }
