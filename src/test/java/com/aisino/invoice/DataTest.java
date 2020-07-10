@@ -1,10 +1,8 @@
 package com.aisino.invoice;
 
 import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpUtil;
 import com.aisino.InvoiceApplication;
 import com.aisino.domain.Invoicebefore;
-import com.aisino.mapper.InvoicebeforeMapper;
 import com.aisino.util.BasicRequest;
 import com.alibaba.fastjson.JSONObject;
 import nuonuo.open.sdk.NNOpenSDK;
@@ -14,23 +12,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes= InvoiceApplication.class)
 public class DataTest {
-    @Autowired
-    private InvoicebeforeMapper invoicebeforeMapper;
 
-    @Test
+
+   /* @Test
     public void test(){
         List<Invoicebefore> invoicebefores = invoicebeforeMapper.queryInvoicebefore();
         System.out.println(invoicebefores);
     }
-
+*/
     @Test
     public void testHttps() {
         JSONObject json = new JSONObject();
@@ -119,10 +114,8 @@ public class DataTest {
         System.out.println(content);
 
         JSONObject.parseObject("");
-
-
-
     }
+
 
 
 

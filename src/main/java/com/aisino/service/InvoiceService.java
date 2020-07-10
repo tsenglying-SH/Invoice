@@ -12,17 +12,14 @@ import java.util.List;
  */
 public interface InvoiceService {
 
-    void saveResult (InvoiceResult invoiceResult);//增
-    /**
-     * @param id
-     * @return int
-     * @description: //删
-     * @version: 1.0
-     * @date: 2020-07-09 16:51
-     * @author: LB
-     */
-    int deleteById (int id);
+    void saveResult (InvoiceResult invoiceResult);//增加一条记录
 
-    InvoiceResult getById(int id);//查一个
-    List<InvoiceResult> selectAll();//查询所有
+    int deleteById (int id);//删除一条记录
+
+    InvoiceResult getById(int id);//查询一条记录
+    List<InvoiceResult> selectAll();//查询所有记录
+
+    InvoiceResult getInvoiceResult(String taxnum);//根据税号查询接口并封装成InvoiceResult对象
+
+
 }
